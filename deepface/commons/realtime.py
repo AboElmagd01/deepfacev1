@@ -6,6 +6,12 @@ import cv2
 import time
 import re
 
+import streamlit as st
+import time
+import numpy as np
+
+
+
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -21,8 +27,8 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True
 	
 	text_color = (255,255,255)
 	
-	employees = []
-	#check passed db folder exists
+	# employees = []
+	# #check passed db folder exists
 	# if os.path.isdir(db_path) == True:
 	# 	for r, d, f in os.walk(db_path): # r=root, d=directories, f = files
 	# 		for file in f:
@@ -52,7 +58,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True
 	# 	threshold = dst.findThreshold(model_name, distance_metric)
 	# 	
 	# #------------------------
-	#facial attribute analysis models
+	# #facial attribute analysis models
 	df8 = pd.DataFrame(columns=['label' , 'score'])
 	
 
@@ -77,31 +83,31 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True
 	
 	#find embeddings for employee list
 	
-	tic = time.time()
+	#tic = time.time()
 	
-	pbar = tqdm(range(0, len(employees)), desc='Finding embeddings')
+	# pbar = tqdm(range(0, len(employees)), desc='Finding embeddings')
 
 	embeddings = []
-	#for employee in employees:
-	for index in pbar:
-		employee = employees[index]
-		pbar.set_description("Finding embedding for %s" % (employee.split("/")[-1]))
-		embedding = []
-		img = functions.preprocess_face(img = employee, target_size = (input_shape_y, input_shape_x), enforce_detection = False)
-		img_representation = model.predict(img)[0,:]
-
-		embedding.append(employee)
-		embedding.append(img_representation)
-		embeddings.append(embedding)
-
+	# #for employee in employees:
+	# for index in pbar:
+	# 	employee = employees[index]
+	# 	pbar.set_description("Finding embedding for %s" % (employee.split("/")[-1]))
+	# 	embedding = []
+	# 	img = functions.preprocess_face(img = employee, target_size = (input_shape_y, input_shape_x), enforce_detection = False)
+	# 	img_representation = model.predict(img)[0,:]
+	#
+	# 	embedding.append(employee)
+	# 	embedding.append(img_representation)
+	# 	embeddings.append(embedding)
+	#
 	df = pd.DataFrame(embeddings, columns = ['employee', 'embedding'])
 	df['distance_metric'] = distance_metric
-
-	toc = time.time()
-
-	print("Embeddings found for given data set in ", toc-tic," seconds")
-
-	#-----------------------
+	#
+	# toc = time.time()
+	#
+	# print("Embeddings found for given data set in ", toc-tic," seconds")
+	#
+	# #-----------------------
 
 	pivot_img_size = 112 #face recognition result image
 
@@ -458,7 +464,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True
 
 
 
-				cv2.imshow('Title Of The Project', freeze_img)
+				cv2.imshow('Title Of Th Project', freeze_img)
 
 
 
@@ -478,7 +484,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True
 
 
 		else:
-			cv2.imshow('Title Of The Project', img)
+			cv2.imshow('Title Of Th Project', img)
 
 		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
 			break
